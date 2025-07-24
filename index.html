@@ -901,188 +901,219 @@ input, textarea, select {
         </a>
     </div>
 
-    <script>
-    const TELEGRAM_BOT_TOKEN = '8094270595:AAERziCUrOYf38DMOSReu1oOSEf2LLG_qS0';
-    const TELEGRAM_GROUP_ID = '@StarlarShopCom';
-    let currentGame = 'mlbb';
+<script>
+const TELEGRAM_BOT_TOKEN = '8094270595:AAERziCUrOYf38DMOSReu1oOSEf2LLG_qS0';
+const TELEGRAM_GROUP_ID = '@StarlarShopCom';
+let currentGame = 'mlbb';
 
-    // Open purchase modal
-    function openModal(packageName, gameType) {
-        document.getElementById('selectedPackage').value = packageName;
-        document.getElementById('gameType').value = gameType;
-        document.getElementById('modalTitle').textContent = packageName + ' ဝယ်ယူရန်';
-        
-        document.getElementById('serverGroup').style.display = 'block';
-        document.getElementById('gameIdLabel').textContent = 'ဂိမ်း ID';
-        
-        document.getElementById('purchaseModal').style.display = 'block';
-        document.body.style.overflow = 'hidden';
+// Open purchase modal
+function openModal(packageName, gameType) {
+    document.getElementById('selectedPackage').value = packageName;
+    document.getElementById('gameType').value = gameType;
+    document.getElementById('modalTitle').textContent = packageName + ' ဝယ်ယူရန်';
 
+    document.getElementById('serverGroup').style.display = 'block';
+    document.getElementById('gameIdLabel').textContent = 'ဂိမ်း ID';
+
+    document.getElementById('purchaseModal').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+
+    document.getElementById('spinner').style.display = 'none';
+    document.getElementById('submitBtn').style.display = 'block';
+    document.getElementById('purchaseForm').reset();
+    document.getElementById('fileUploadLabel').innerHTML = `
+        <i class="fas fa-cloud-upload-alt"></i><br>
+        ဓာတ်ပုံတင်ရန် နှိပ်ပါ
+    `;
+}
+
+// Close modal
+function closeModal() {
+    document.getElementById('purchaseModal').style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+// Send to Telegram
+async function sendTelegramPhotoWithCaption(file, caption) {
+    const formData = new FormData();
+    formData.append('chat_id', TELEGRAM_GROUP_ID);
+    formData.append('photo', file);
+    formData.append('caption', caption);
+    formData.append('parse_mode', 'HTML');
+
+    const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`;
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error sending to Telegram:', error);
+        throw error;
+    }
+}
+
+// Submit handler
+document.getElementById('purchaseForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const packageName = document.getElementById('selectedPackage').value;
+    const gameType = document.getElementById('gameType').value;
+    const gameId = document.getElementById('gameId').value;
+    const serverId = document.getElementById('serverId').value;
+    const paymentProof = document.getElementById('paymentProof').files[0];
+
+    document.getElementById('submitBtn').style.display = 'none';
+    document.getElementById('spinner').style.display = 'block';
+
+    const now = new Date();
+    const dateStr = now.toISOString().split('T')[0];
+    const timeStr = now.toLocaleTimeString('en-US', { hour12: true, hour: 'numeric', minute: 'numeric' });
+
+    const messageText = `📢 MLBB Diamonds အမှာသစ်!\n\n` +
+        `💎 ၀ယ်သည့်အရာ: ${packageName}\n` +
+        `🆔 Game ID: ${gameId}\n` +
+        `🌐 Server ID: ${serverId}\n\n` +
+        `⏰ အချိန်: ${timeStr}`;
+
+    try {
+        await sendTelegramPhotoWithCaption(paymentProof, messageText);
+        closeModal();
+        showSuccessBanner();
+        addToOrders(packageName, gameType, gameId, serverId, dateStr, timeStr);
+    } catch (err) {
+        console.error("Telegram error:", err);
+        showSuccessBanner();
         document.getElementById('spinner').style.display = 'none';
         document.getElementById('submitBtn').style.display = 'block';
-        document.getElementById('purchaseForm').reset();
-        document.getElementById('fileUploadLabel').innerHTML = `
-            <i class="fas fa-cloud-upload-alt"></i><br>
-            ဓာတ်ပုံတင်ရန် နှိပ်ပါ
-        `;
+    }
+});
+
+// Add order to UI and storage
+function addToOrders(packageName, gameType, gameId, serverId, dateStr, timeStr) {
+    const ordersContainer = document.getElementById('ordersContent');
+
+    const orderCard = document.createElement('div');
+    orderCard.className = 'order-card';
+    orderCard.innerHTML = `
+        <div class="order-header">
+            <span>${packageName}</span>
+            <span class="order-status">အော်ဒါတင်ထားသည်</span>
+        </div>
+        <div class="order-details">
+            <div>ဂိမ်း ID: ${gameId}</div>
+            <div>ဆာဗာ ID: ${serverId}</div>
+        </div>
+        <div class="order-date">${dateStr} ${timeStr}</div>
+    `;
+
+    ordersContainer.insertBefore(orderCard, ordersContainer.firstChild);
+
+    // Hide "no orders"
+    const noOrdersMsg = ordersContainer.querySelector('.no-orders');
+    if (noOrdersMsg) {
+        noOrdersMsg.style.display = 'none';
     }
 
-    // Close purchase modal
-    function closeModal() {
-        document.getElementById('purchaseModal').style.display = 'none';
-        document.body.style.overflow = 'auto';
-    }
+    // Save to localStorage
+    let orders = JSON.parse(localStorage.getItem('ordersList') || '[]');
+    orders.unshift({ packageName, gameType, gameId, serverId, dateStr, timeStr });
+    localStorage.setItem('ordersList', JSON.stringify(orders));
+}
 
-    // Send photo with caption to Telegram
-    async function sendTelegramPhotoWithCaption(file, caption) {
-        const formData = new FormData();
-        formData.append('chat_id', TELEGRAM_GROUP_ID);
-        formData.append('photo', file);
-        formData.append('caption', caption);
-        formData.append('parse_mode', 'HTML');
+// Load orders from localStorage
+function loadOrdersFromStorage() {
+    const storedOrders = JSON.parse(localStorage.getItem('ordersList') || '[]');
+    const ordersContainer = document.getElementById('ordersContent');
 
-        const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`;
-
-        try {
-            const response = await fetch(url, {
-                method: 'POST',
-                body: formData
-            });
-            
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            console.error('Error sending to Telegram:', error);
-            throw error;
-        }
-    }
-
-    // Handle form submission
-    document.getElementById('purchaseForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
-
-        const packageName = document.getElementById('selectedPackage').value;
-        const gameType = document.getElementById('gameType').value;
-        const gameId = document.getElementById('gameId').value;
-        const serverId = document.getElementById('serverId').value;
-        const paymentProof = document.getElementById('paymentProof').files[0];
-
-        document.getElementById('submitBtn').style.display = 'none';
-        document.getElementById('spinner').style.display = 'block';
-
-        const messageText = `📢 MLBB Diamonds အမှာသစ်!\n\n` +
-            `💎 ၀ယ်သည့်အရာ: ${packageName}\n` +
-            `🆔 Game ID: ${gameId}\n` +
-            `🌐 Server ID: ${serverId}\n\n` +
-            `⏰ အချိန်: ${new Date().toLocaleString('en-US', {hour12: true, hour: 'numeric', minute:'numeric'})}`;
-
-        try {
-            await sendTelegramPhotoWithCaption(paymentProof, messageText);
-            closeModal();
-
-            // Show success banner
-            showSuccessBanner();
-            
-            // Add to orders
-            addToOrders(packageName, gameType, gameId, serverId);
-        } catch (err) {
-            console.error("Telegram error:", err);
-            showSuccessBanner(); // Still show success to user even if Telegram fails
-            document.getElementById('spinner').style.display = 'none';
-            document.getElementById('submitBtn').style.display = 'block';
-        }
-    });
-
-    // Add new order to orders list
-    function addToOrders(packageName, gameType, gameId, serverId) {
-        const ordersContainer = document.getElementById('ordersContent');
-        const now = new Date();
-        const dateStr = now.toISOString().split('T')[0];
-        const timeStr = now.toLocaleTimeString('en-US', {hour12: true, hour: 'numeric', minute:'numeric'});
-        
-        const orderCard = document.createElement('div');
-        orderCard.className = 'order-card';
-        orderCard.innerHTML = `
-            <div class="order-header">
-                <span>${packageName}</span>
-                <span class="order-status">အော်ဒါတင်ထားသည်</span>
-            </div>
-            <div class="order-details">
-                <div>ဂိမ်း ID: ${gameId}</div>
-                <div>ဆာဗာ ID: ${serverId}</div>
-            </div>
-            <div class="order-date">${dateStr} ${timeStr}</div>
-        `;
-        
-        ordersContainer.insertBefore(orderCard, ordersContainer.firstChild);
-        
-        // Hide "no orders" message if it exists
-        const noOrdersMsg = ordersContainer.querySelector('.no-orders');
-        if (noOrdersMsg) {
-            noOrdersMsg.style.display = 'none';
-        }
-    }
-
-    // Show success notification
-    function showSuccessBanner() {
-        const successBanner = document.createElement('div');
-        successBanner.className = 'success-banner';
-        successBanner.innerHTML = `
-            <i class="fas fa-check-circle"></i>
-            <div>
-                <div>အော်ဒါတင်ခြင်း အောင်မြင်ပါသည်!</div>
-                <div style="font-size:0.8rem; margin-top:2px;">ကျေးဇူးတင်ပါသည်</div>
-            </div>
-        `;
-        
-        document.body.appendChild(successBanner);
-        
-        setTimeout(() => {
-            successBanner.style.animation = 'fadeIn 0.5s ease reverse';
-            setTimeout(() => {
-                document.body.removeChild(successBanner);
-            }, 500);
-        }, 3000);
-    }
-
-    // Show home content
-    function showHome() {
-        document.getElementById('mlbbContent').style.display = 'block';
-        document.getElementById('ordersContent').style.display = 'none';
-        
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.classList.remove('active');
-        });
-        event.target.classList.add('active');
-    }
-
-    function showOrders() {
-        document.getElementById('mlbbContent').style.display = 'none';
-        document.getElementById('ordersContent').style.display = 'block';
-        
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.classList.remove('active');
-        });
-        event.target.classList.add('active');
-    }
-
-    // Handle file upload label
-    document.getElementById('paymentProof').addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (file) {
-            document.getElementById('fileUploadLabel').innerHTML = `
-                <i class="fas fa-check-circle"></i><br>
-                ${file.name}
+    if (storedOrders.length > 0) {
+        ordersContainer.innerHTML = '';
+        storedOrders.forEach(order => {
+            const orderCard = document.createElement('div');
+            orderCard.className = 'order-card';
+            orderCard.innerHTML = `
+                <div class="order-header">
+                    <span>${order.packageName}</span>
+                    <span class="order-status">အော်ဒါတင်ထားသည်</span>
+                </div>
+                <div class="order-details">
+                    <div>ဂိမ်း ID: ${order.gameId}</div>
+                    <div>ဆာဗာ ID: ${order.serverId}</div>
+                </div>
+                <div class="order-date">${order.dateStr} ${order.timeStr}</div>
             `;
-        }
-    });
+            ordersContainer.appendChild(orderCard);
+        });
+    } else {
+        ordersContainer.innerHTML = `<div class="no-orders">မှတ်တမ်းမရှိသေးပါ</div>`;
+    }
+}
 
-    // Close modal when clicking outside
-    window.addEventListener('click', function(event) {
-        if (event.target === document.getElementById('purchaseModal')) {
-            closeModal();
-        }
-    });
+// Show success banner
+function showSuccessBanner() {
+    const successBanner = document.createElement('div');
+    successBanner.className = 'success-banner';
+    successBanner.innerHTML = `
+        <i class="fas fa-check-circle"></i>
+        <div>
+            <div>အော်ဒါတင်ခြင်း အောင်မြင်ပါသည်!</div>
+            <div style="font-size:0.8rem; margin-top:2px;">ကျေးဇူးတင်ပါသည်</div>
+        </div>
+    `;
+
+    document.body.appendChild(successBanner);
+
+    setTimeout(() => {
+        successBanner.style.animation = 'fadeIn 0.5s ease reverse';
+        setTimeout(() => {
+            document.body.removeChild(successBanner);
+        }, 500);
+    }, 3000);
+}
+
+// Navigation
+function showHome() {
+    document.getElementById('mlbbContent').style.display = 'block';
+    document.getElementById('ordersContent').style.display = 'none';
+
+    document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+    event.target.classList.add('active');
+}
+
+function showOrders() {
+    document.getElementById('mlbbContent').style.display = 'none';
+    document.getElementById('ordersContent').style.display = 'block';
+
+    document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+    event.target.classList.add('active');
+}
+
+// File upload label
+document.getElementById('paymentProof').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        document.getElementById('fileUploadLabel').innerHTML = `
+            <i class="fas fa-check-circle"></i><br>
+            ${file.name}
+        `;
+    }
+});
+
+// Modal click outside
+window.addEventListener('click', function(event) {
+    if (event.target === document.getElementById('purchaseModal')) {
+        closeModal();
+    }
+});
+
+// Load orders on startup
+window.onload = function () {
+    loadOrdersFromStorage();
+};
 </script>
 </body>
 </html>
