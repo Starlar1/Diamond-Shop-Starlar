@@ -1,4 +1,4 @@
-<meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
 <html lang="my">
 <head>
     <meta charset="UTF-8">
@@ -7,6 +7,61 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+/* Announcement Banner Styles */
+.announcement-banner {
+    background: linear-gradient(135deg, rgba(255, 46, 77, 0.9), rgba(255, 107, 0, 0.9));
+    color: white;
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+    text-align: center;
+    position: relative;
+    z-index: 5;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: block; /* Change to 'none' if you want it hidden by default */
+}
+
+.announcement-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.announcement-icon {
+    margin-right: 0.6rem;
+    font-size: 0.9rem;
+}
+
+.announcement-text {
+    flex: 1;
+}
+
+.announcement-link {
+    color: white;
+    font-weight: 600;
+    text-decoration: underline;
+    margin-left: 0.3rem;
+    transition: var(--transition);
+}
+
+.announcement-link:hover {
+    color: var(--mlbb-accent);
+}
+
+.announcement-close {
+    margin-left: 1rem;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: var(--transition);
+    padding: 0.2rem;
+}
+
+.announcement-close:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
 /* Base Styles for Android Optimization */
 :root {
     --mlbb-primary: #FF2E4D;
@@ -582,249 +637,320 @@ input, textarea, select {
         </div>
     </div>
 
-    <!-- Main Content -->
-    <div id="mlbbContent">
-        <!-- MLBB Diamond Packages -->
-        <div class="diamond-grid">
-            <div class="diamond-card" onclick="openModal('11 Diamonds', 'mlbb')">    
-                <div class="diamond-icon">
-                    <i class="fas fa-gem"></i>
-                </div>
-                <div class="diamond-amount">11 Diamonds</div>
-                <div class="diamond-price">1000 Ks</div>
-            </div>
+<!-- Add this right after the <div class="header"> section -->
+<div class="announcement-banner">
+    <div class="announcement-content">
+        <span class="announcement-icon"><i class="fas fa-bullhorn"></i></span>
+        <span class="announcement-text">Telegram Channel ကို Joint ထားနိုင်သည်  
+            <a href="https://t.me/StarlarCompany" target="_blank" class="announcement-link">@StarlarCompany</a>
+        </span>
+        <span class="announcement-close" onclick="closeAnnouncement()"><i class="fas fa-times"></i></span>
+    </div>
+</div>
 
-            <div class="diamond-card" onclick="openModal('22 Diamonds', 'mlbb')">
-                <div class="diamond-icon">
-                    <i class="fas fa-gem"></i>
-                </div>
-                <div class="diamond-amount">22 Diamonds</div>
-                <div class="diamond-price">1900 Ks</div>
-            </div>
+<!-- Main Content -->
+<div id="mlbbContent">
 
-            <div class="diamond-card" onclick="openModal('33 Diamonds', 'mlbb')">
-                <div class="diamond-icon">
-                    <i class="fas fa-gem"></i>
-                </div>
-                <div class="diamond-amount">33 Diamonds</div>
-                <div class="diamond-price">2900 Ks</div>
+    <!-- Regular Diamonds Section -->
+    <div style="padding: 0 1rem; margin-top: 1rem;">
+        <h3 style="color: var(--mlbb-accent); border-bottom: 2px solid var(--mlbb-secondary); padding-bottom: 0.5rem; display: flex; align-items: center;">
+            <i class="fas fa-gem" style="margin-right: 0.5rem;"></i>
+            Diamond များ
+        </h3>
+    </div>
+     
+        <!-- Regular Diamonds -->
+    <div class="diamond-grid">
+        <!-- 11 Diamonds -->
+        <div class="diamond-card" onclick="openModal('11 Diamonds', 'mlbb')">    
+            <div class="diamond-icon">
+                <i class="fas fa-gem"></i>
             </div>
+            <div class="diamond-amount">11 Diamonds</div>
+            <div class="diamond-price">1000 Ks</div>
+        </div>
 
-            <div class="diamond-card" onclick="openModal('44 Diamonds', 'mlbb')">
-                <div class="diamond-icon">
-                    <i class="fas fa-gem"></i>
-                </div>
-                <div class="diamond-amount">44 Diamonds</div>
-                <div class="diamond-price">3650 Ks</div>
+        <!-- 22 Diamonds -->
+        <div class="diamond-card" onclick="openModal('22 Diamonds', 'mlbb')">
+            <div class="diamond-icon">
+                <i class="fas fa-gem"></i>
             </div>
+            <div class="diamond-amount">22 Diamonds</div>
+            <div class="diamond-price">2000 Ks</div>
+        </div>
 
-            <div class="diamond-card" onclick="openModal('56 Diamonds', 'mlbb')">
-                <div class="diamond-icon">
-                    <i class="fas fa-gem"></i>
-                </div>
-                <div class="diamond-amount">56 Diamonds</div>
-                <div class="diamond-price">4200 Ks</div>
+        <!-- 33 Diamonds -->
+        <div class="diamond-card" onclick="openModal('33 Diamonds', 'mlbb')">
+            <div class="diamond-icon">
+                <i class="fas fa-gem"></i>
             </div>
+            <div class="diamond-amount">33 Diamonds</div>
+            <div class="diamond-price">3000 Ks</div>
+        </div>
 
-            <div class="diamond-card" onclick="openModal('112 Diamonds', 'mlbb')">               
-                <div class="diamond-icon">
-                    <i class="fas fa-gem"></i>
-                </div>
-                <div class="diamond-amount">112 Diamonds</div>
-                <div class="diamond-price">8900 Ks</div>
+        <!-- 44 Diamonds -->
+        <div class="diamond-card" onclick="openModal('44 Diamonds', 'mlbb')">
+            <div class="diamond-icon">
+                <i class="fas fa-gem"></i>
             </div>
+            <div class="diamond-amount">44 Diamonds</div>
+            <div class="diamond-price">3700 Ks</div>
+        </div>
 
-            <div class="diamond-card" onclick="openModal('86 Diamonds', 'mlbb')">
-                <div class="diamond-icon">
-                    <i class="fas fa-gem"></i>
-                </div>
-                <div class="diamond-amount">86 Diamonds</div>
-                <div class="diamond-price">5400 Ks</div>
+        <!-- 56 Diamonds -->
+        <div class="diamond-card" onclick="openModal('56 Diamonds', 'mlbb')">
+            <div class="diamond-icon">
+                <i class="fas fa-gem"></i>
             </div>
+            <div class="diamond-amount">56 Diamonds</div>
+            <div class="diamond-price">4200 Ks</div>
+        </div>
 
-            <div class="diamond-card" onclick="openModal('172 Diamonds', 'mlbb')">
-                <div class="diamond-icon">
-                    <i class="fas fa-gem"></i>
-                </div>
-                <div class="diamond-amount">172 Diamonds</div>
-                <div class="diamond-price">10500 Ks</div>
+        <!-- 112 Diamonds -->
+        <div class="diamond-card" onclick="openModal('112 Diamonds', 'mlbb')">               
+            <div class="diamond-icon">
+                <i class="fas fa-gem"></i>
             </div>
+            <div class="diamond-amount">112 Diamonds</div>
+            <div class="diamond-price">8900 Ks</div>
+        </div>
 
-            <div class="diamond-card" onclick="openModal('257 Diamonds', 'mlbb')">
-                <div class="diamond-icon">
-                    <i class="fas fa-gem"></i>
-                </div>
-                <div class="diamond-amount">257 Diamonds</div>
-                <div class="diamond-price">16000 Ks</div>
+        <!-- 86 Diamonds -->
+        <div class="diamond-card" onclick="openModal('86 Diamonds', 'mlbb')">
+            <div class="diamond-icon">
+                <i class="fas fa-gem"></i>
             </div>
+            <div class="diamond-amount">86 Diamonds</div>
+            <div class="diamond-price">5400 Ks</div>
+        </div>
 
-            <div class="diamond-card" onclick="openModal('343 Diamonds', 'mlbb')">
-                <div class="diamond-icon">
-                    <i class="fas fa-gem"></i>
-                </div>
-                <div class="diamond-amount">343 Diamonds</div>
-                <div class="diamond-price">21000 Ks</div>
+        <!-- 172 Diamonds -->
+        <div class="diamond-card" onclick="openModal('172 Diamonds', 'mlbb')">
+            <div class="diamond-icon">
+                <i class="fas fa-gem"></i>
             </div>
+            <div class="diamond-amount">172 Diamonds</div>
+            <div class="diamond-price">10500 Ks</div>
+        </div>
 
-            <div class="diamond-card" onclick="openModal('429 Diamonds', 'mlbb')">
-                <div class="diamond-icon">
-                    <i class="fas fa-gem"></i>
-                </div>
-                <div class="diamond-amount">429 Diamonds</div>
-                <div class="diamond-price">26950 Ks</div>
+        <!-- 257 Diamonds -->
+        <div class="diamond-card" onclick="openModal('257 Diamonds', 'mlbb')">
+            <div class="diamond-icon">
+                <i class="fas fa-gem"></i>
             </div>
+            <div class="diamond-amount">257 Diamonds</div>
+            <div class="diamond-price">16000 Ks</div>
+        </div>
 
-            <div class="diamond-card" onclick="openModal('514 Diamonds', 'mlbb')">
-                <div class="diamond-icon">
-                    <i class="fas fa-gem"></i>
-                </div>
-                <div class="diamond-amount">514 Diamonds</div>
-                <div class="diamond-price">29900 Ks</div>
+        <!-- 343 Diamonds -->
+        <div class="diamond-card" onclick="openModal('343 Diamonds', 'mlbb')">
+            <div class="diamond-icon">
+                <i class="fas fa-gem"></i>
             </div>
+            <div class="diamond-amount">343 Diamonds</div>
+            <div class="diamond-price">21000 Ks</div>
+        </div>
 
-            <div class="diamond-card" onclick="openModal('600 Diamonds', 'mlbb')">
-                <div class="diamond-icon">
-                    <i class="fas fa-gem"></i>
-                </div>
-                <div class="diamond-amount">600 Diamonds</div>
-                <div class="diamond-price">37500 Ks</div>
+        <!-- 429 Diamonds -->
+        <div class="diamond-card" onclick="openModal('429 Diamonds', 'mlbb')">
+            <div class="diamond-icon">
+                <i class="fas fa-gem"></i>
             </div>
+            <div class="diamond-amount">429 Diamonds</div>
+            <div class="diamond-price">27000 Ks</div>
+        </div>
 
-            <div class="diamond-card" onclick="openModal('706 Diamonds', 'mlbb')">
-                <div class="diamond-icon">
-                    <i class="fas fa-gem"></i>
-                </div>
-                <div class="diamond-amount">706 Diamonds</div>
-                <div class="diamond-price">45500 Ks</div>
+        <!-- 514 Diamonds -->
+        <div class="diamond-card" onclick="openModal('514 Diamonds', 'mlbb')">
+            <div class="diamond-icon">
+                <i class="fas fa-gem"></i>
             </div>
+            <div class="diamond-amount">514 Diamonds</div>
+            <div class="diamond-price">29900 Ks</div>
+        </div>
 
-            <div class="diamond-card" onclick="openModal('878 Diamonds', 'mlbb')">
-                <div class="diamond-icon">
-                    <i class="fas fa-gem"></i>
-                </div>
-                <div class="diamond-amount">878 Diamonds</div>
-                <div class="diamond-price">51000 Ks</div>
+        <!-- 600 Diamonds -->
+        <div class="diamond-card" onclick="openModal('600 Diamonds', 'mlbb')">
+            <div class="diamond-icon">
+                <i class="fas fa-gem"></i>
             </div>
+            <div class="diamond-amount">600 Diamonds</div>
+            <div class="diamond-price">37500 Ks</div>
+        </div>
 
-            <div class="diamond-card" onclick="openModal('963 Diamonds', 'mlbb')">
-                <div class="diamond-icon">
-                    <i class="fas fa-gem"></i>
-                </div>
-                <div class="diamond-amount">963 Diamonds</div>
-                <div class="diamond-price">57950 Ks</div>
+        <!-- 706 Diamonds -->
+        <div class="diamond-card" onclick="openModal('706 Diamonds', 'mlbb')">
+            <div class="diamond-icon">
+                <i class="fas fa-gem"></i>
             </div>
+            <div class="diamond-amount">706 Diamonds</div>
+            <div class="diamond-price">45500 Ks</div>
+        </div>
 
-            <div class="diamond-card" onclick="openModal('1049 Diamonds', 'mlbb')">
-                <div class="diamond-icon">
-                    <i class="fas fa-gem"></i>
-                </div>
-                <div class="diamond-amount">1049 Diamonds</div>
-                <div class="diamond-price">61000 Ks</div>
+        <!-- 878 Diamonds -->
+        <div class="diamond-card" onclick="openModal('878 Diamonds', 'mlbb')">
+            <div class="diamond-icon">
+                <i class="fas fa-gem"></i>
             </div>
+            <div class="diamond-amount">878 Diamonds</div>
+            <div class="diamond-price">51000 Ks</div>
+        </div>
 
-            <div class="diamond-card" onclick="openModal('1135 Diamonds', 'mlbb')">
-                <div class="diamond-icon">
-                    <i class="fas fa-gem"></i>
-                </div>
-                <div class="diamond-amount">1135 Diamonds</div>
-                <div class="diamond-price">65500 Ks</div>
+        <!-- 963 Diamonds -->
+        <div class="diamond-card" onclick="openModal('963 Diamonds', 'mlbb')">
+            <div class="diamond-icon">
+                <i class="fas fa-gem"></i>
             </div>
+            <div class="diamond-amount">963 Diamonds</div>
+            <div class="diamond-price">58000 Ks</div>
+        </div>
 
-            <div class="diamond-card" onclick="openModal('1412 Diamonds', 'mlbb')">
-                <div class="diamond-icon">
-                    <i class="fas fa-gem"></i>
-                </div>
-                <div class="diamond-amount">1412 Diamonds</div>
-                <div class="diamond-price">81000 Ks</div>
+        <!-- 1049 Diamonds -->
+        <div class="diamond-card" onclick="openModal('1049 Diamonds', 'mlbb')">
+            <div class="diamond-icon">
+                <i class="fas fa-gem"></i>
             </div>
+            <div class="diamond-amount">1049 Diamonds</div>
+            <div class="diamond-price">61000 Ks</div>
+        </div>
 
-            <div class="diamond-card" onclick="openModal('2195 Diamonds', 'mlbb')">
-                <div class="diamond-icon">
-                    <i class="fas fa-gem"></i>
-                </div>
-                <div class="diamond-amount">2195 Diamonds</div>
-                <div class="diamond-price">129900 Ks</div>
+        <!-- 1135 Diamonds -->
+        <div class="diamond-card" onclick="openModal('1135 Diamonds', 'mlbb')">
+            <div class="diamond-icon">
+                <i class="fas fa-gem"></i>
             </div>
+            <div class="diamond-amount">1135 Diamonds</div>
+            <div class="diamond-price">65500 Ks</div>
+        </div>
 
-            <div class="diamond-card" onclick="openModal('3688 Diamonds', 'mlbb')">
-                <div class="diamond-icon">
-                    <i class="fas fa-gem"></i>
-                </div>
-                <div class="diamond-amount">3688 Diamonds</div>
-                <div class="diamond-price">220000 Ks</div>
+        <!-- 1412 Diamonds -->
+        <div class="diamond-card" onclick="openModal('1412 Diamonds', 'mlbb')">
+            <div class="diamond-icon">
+                <i class="fas fa-gem"></i>
             </div>
+            <div class="diamond-amount">1412 Diamonds</div>
+            <div class="diamond-price">81000 Ks</div>
+        </div>
 
-            <div class="diamond-card" onclick="openModal('5532 Diamonds', 'mlbb')">
-                <div class="diamond-icon">
-                    <i class="fas fa-gem"></i>
-                </div>
-                <div class="diamond-amount">5532 Diamonds</div>
-                <div class="diamond-price">317900 Ks</div>
+        <!-- 2195 Diamonds -->
+        <div class="diamond-card" onclick="openModal('2195 Diamonds', 'mlbb')">
+            <div class="diamond-icon">
+                <i class="fas fa-gem"></i>
             </div>
+            <div class="diamond-amount">2195 Diamonds</div>
+            <div class="diamond-price">129900 Ks</div>
+        </div>
 
-            <div class="diamond-card" onclick="openModal('9288 Diamonds', 'mlbb')">
-                <div class="diamond-icon">
-                    <i class="fas fa-gem"></i>
-                </div>
-                <div class="diamond-amount">9288 Diamonds</div>
-                <div class="diamond-price">519900 Ks</div>
+        <!-- 3688 Diamonds -->
+        <div class="diamond-card" onclick="openModal('3688 Diamonds', 'mlbb')">
+            <div class="diamond-icon">
+                <i class="fas fa-gem"></i>
             </div>
+            <div class="diamond-amount">3688 Diamonds</div>
+            <div class="diamond-price">220000 Ks</div>
+        </div>
 
-            <div class="diamond-card" onclick="openModal('50+50 Diamonds', 'mlbb')">
-                <div class="badge">2X</div>
-                <div class="diamond-icon">
-                    <i class="fas fa-gem"></i>
-                </div>
-                <div class="diamond-amount">50+50 Diamonds</div>
-                <div class="diamond-price">3900 Ks</div>
+        <!-- 5532 Diamonds -->
+        <div class="diamond-card" onclick="openModal('5532 Diamonds', 'mlbb')">
+            <div class="diamond-icon">
+                <i class="fas fa-gem"></i>
             </div>
+            <div class="diamond-amount">5532 Diamonds</div>
+            <div class="diamond-price">318000 Ks</div>
+        </div>
 
-            <div class="diamond-card" onclick="openModal('150+150 Diamonds', 'mlbb')">
-                <div class="badge">2X</div>
-                <div class="diamond-icon">
-                    <i class="fas fa-gem"></i>
-                </div>
-                <div class="diamond-amount">150+150 Diamonds</div>
-                <div class="diamond-price">9900 Ks</div>
+        <!-- 9288 Diamonds -->
+        <div class="diamond-card" onclick="openModal('9288 Diamonds', 'mlbb')">
+            <div class="diamond-icon">
+                <i class="fas fa-gem"></i>
             </div>
-
-            <div class="diamond-card" onclick="openModal('250+250 Diamonds', 'mlbb')">
-                <div class="badge">2X</div>
-                <div class="diamond-icon">
-                    <i class="fas fa-gem"></i>
-                </div>
-                <div class="diamond-amount">250+250 Diamonds</div>
-                <div class="diamond-price">17900 Ks</div>
-            </div>
-
-            <div class="diamond-card" onclick="openModal('500+500 Diamonds', 'mlbb')">
-                <div class="badge">2X</div>
-                <div class="diamond-icon">
-                    <i class="fas fa-gem"></i>
-                </div>
-                <div class="diamond-amount">500+500 Diamonds</div>
-                <div class="diamond-price">32900 Ks</div>
-            </div>
-
-            <div class="diamond-card" onclick="openModal('Weekly Pass', 'mlbb')">
-                <div class="badge">PASS</div>
-                <div class="diamond-icon">
-                    <i class="fas fa-ticket-alt"></i>
-                </div>
-                <div class="diamond-amount">Weekly Pass</div>
-                <div class="diamond-price">6500 Ks</div>
-            </div>
-
-            <div class="diamond-card" onclick="openModal('Twilight Pass', 'mlbb')">
-                <div class="badge">PASS</div>
-                <div class="diamond-icon">
-                    <i class="fas fa-ticket-alt"></i>
-                </div>
-                <div class="diamond-amount">Twilight Pass</div>
-                <div class="diamond-price">35900 Ks</div>
-            </div>
+            <div class="diamond-amount">9288 Diamonds</div>
+            <div class="diamond-price">520000 Ks</div>
         </div>
     </div>
+
+  <!-- 2X Diamonds Section -->
+    <div style="padding: 0 1rem; margin-top: 2rem;">
+        <h3 style="color: var(--mlbb-accent); border-bottom: 2px solid var(--mlbb-secondary); padding-bottom: 0.5rem; display: flex; align-items: center;">
+            <i class="fas fa-gem" style="margin-right: 0.5rem;"></i>
+            2X Diamond များ
+        </h3>
+    </div>
+    
+        <!-- 2X Diamonds Section -->
+    <div class="diamond-grid">
+        <!-- 50+50 Diamonds -->
+        <div class="diamond-card" onclick="openModal('50+50 Diamonds', 'mlbb')">
+            <div class="badge">2X</div>
+            <div class="diamond-icon">
+                <i class="fas fa-gem"></i>
+            </div>
+            <div class="diamond-amount">50+50 Diamonds</div>
+            <div class="diamond-price">3900 Ks</div>
+        </div>
+
+        <!-- 150+150 Diamonds -->
+        <div class="diamond-card" onclick="openModal('150+150 Diamonds', 'mlbb')">
+            <div class="badge">2X</div>
+            <div class="diamond-icon">
+                <i class="fas fa-gem"></i>
+            </div>
+            <div class="diamond-amount">150+150 Diamonds</div>
+            <div class="diamond-price">9900 Ks</div>
+        </div>
+
+        <!-- 250+250 Diamonds -->
+        <div class="diamond-card" onclick="openModal('250+250 Diamonds', 'mlbb')">
+            <div class="badge">2X</div>
+            <div class="diamond-icon">
+                <i class="fas fa-gem"></i>
+            </div>
+            <div class="diamond-amount">250+250 Diamonds</div>
+            <div class="diamond-price">17900 Ks</div>
+        </div>
+
+        <!-- 500+500 Diamonds -->
+        <div class="diamond-card" onclick="openModal('500+500 Diamonds', 'mlbb')">
+            <div class="badge">2X</div>
+            <div class="diamond-icon">
+                <i class="fas fa-gem"></i>
+            </div>
+            <div class="diamond-amount">500+500 Diamonds</div>
+            <div class="diamond-price">32900 Ks</div>
+        </div>
+    </div>
+
+    <!-- Pass များ-->
+    <div style="padding: 0 1rem; margin-top: 2rem;">
+        <h3 style="color: var(--mlbb-accent); border-bottom: 2px solid var(--mlbb-secondary); padding-bottom: 0.5rem; display: flex; align-items: center;">
+            <i class="fas fa-ticket-alt" style="margin-right: 0.5rem;"></i>
+            Pass များ
+        </h3>
+    </div>
+    
+        <!-- Passes Section -->
+    <div class="diamond-grid">
+        <!-- Weekly Pass -->
+        <div class="diamond-card" onclick="openModal('Weekly Pass', 'mlbb')">
+            <div class="badge">PASS</div>
+            <div class="diamond-icon">
+                <i class="fas fa-ticket-alt"></i>
+            </div>
+            <div class="diamond-amount">Weekly Pass</div>
+            <div class="diamond-price">6500 Ks</div>
+        </div>
+
+        <!-- Twilight Pass -->
+        <div class="diamond-card" onclick="openModal('Twilight Pass', 'mlbb')">
+            <div class="badge">PASS</div>
+            <div class="diamond-icon">
+                <i class="fas fa-ticket-alt"></i>
+            </div>
+            <div class="diamond-amount">Twilight Pass</div>
+            <div class="diamond-price">35900 Ks</div>
+        </div>
+    </div>
+</div>
     
     <!-- Orders Section -->
     <div id="ordersContent" class="orders-container">
@@ -870,7 +996,6 @@ input, textarea, select {
                 
                 <div class="form-group">
                     <label for="paymentProof">ငွေပေးချေမှု အတည်ပြုချက် (ဓာတ်ပုံ)</label>
-                    <label for="paymentProof">ငွေလွှဲဓာတ်ပုံအမှန်မပြပါကစိန်ထည့်ပေးမည်မဟုတ်ပါ</label>
                     <div class="file-upload">
                         <div class="file-upload-btn" id="fileUploadLabel">
                             <i class="fas fa-cloud-upload-alt"></i><br>
@@ -900,6 +1025,7 @@ input, textarea, select {
             <span>အော်ဒါများ</span>
         </a>
     </div>
+
 
 <script>
 const TELEGRAM_BOT_TOKEN = '8094270595:AAERziCUrOYf38DMOSReu1oOSEf2LLG_qS0';
@@ -1110,10 +1236,24 @@ window.addEventListener('click', function(event) {
     }
 });
 
+// Close announcement banner
+function closeAnnouncement() {
+    document.querySelector('.announcement-banner').style.display = 'none';
+    localStorage.setItem('announcementClosed', 'true');
+}
+
+// Check if announcement was previously closed
+function checkAnnouncement() {
+    if (!localStorage.getItem('announcementClosed')) {
+        document.querySelector('.announcement-banner').style.display = 'block';
+    }
+}
+
 // Load orders on startup
 window.onload = function () {
     loadOrdersFromStorage();
 };
+
 </script>
 </body>
 </html>
